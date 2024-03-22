@@ -1,0 +1,81 @@
+.common-table {
+  position: relative;
+  width:100%;
+}
+
+.common-table-button-set {
+  color: white;
+}
+.table-outside {
+  &-min {
+    max-height: calc(100% - 56px - 42px);
+  }
+  max-height: calc(100% - 56px);
+  overflow: auto;
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    thead  {
+      border-bottom: 2px solid #dddddd;
+    }
+    tbody tr {
+      border-bottom: 1px solid #dddddd;
+    }
+  }
+  .tr-dark {
+    background-color: #f9f9f9;
+    td {
+      background-color: #f9f9f9;
+    }
+  }
+  // 總數tr
+  .total-tr {
+    border-bottom: unset !important;
+    > td {
+      border: unset;
+    }
+  }
+  td,th {
+    text-align: center;
+    vertical-align: middle;
+    color: black !important;
+    // border: 2px solid #009CAD;
+    padding: 8px 6px;
+    box-sizing: border-box;
+  }
+  .td-content {
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3; /* 設定最大行數為 3 行 */
+    overflow: hidden;
+    width: 100%;
+  }
+  .edit-btn {
+    background-color: #337ab7;
+    border-color: #2e6da4;
+  }
+  .delete-btn {
+    background-color: #d9534f;
+    border-color: #d43f3a;
+  }
+}
+.operate-button {
+  min-height: 32px !important;
+}
+.align-items-center {
+  align-items: center;
+  -webkit-align-items: center;
+}
+.justify-content-between {
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+}
+
+.text-white {
+  color: white !important;
+}
+button:hover {
+  opacity: .8;
+}

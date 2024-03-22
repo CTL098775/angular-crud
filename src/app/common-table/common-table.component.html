@@ -1,0 +1,72 @@
+<div class="container">
+  <div class="flex-column common-table">
+    <div class="table-outside" [ngClass]="{'table-outside-min': showTotal}">
+      <!-- 表單 -->
+      <table #commonTable class="table">
+        <!-- 表頭 -->
+        <thead>
+          <tr>
+            <!-- 使用ngFor列表定義產生表頭 -->
+            <ng-container *ngFor="let columnDef of tableColumnDefs; trackBy: trackByFnIndex">
+              <th [id]="columnDef.dataKey" [ngStyle]="{ minWidth: columnDef.widthOfTable, maxWidth: columnDef.widthOfTable}">
+                {{columnDef.headerNames}}
+              </th>
+            </ng-container>
+            <th *ngIf="operateItems.length > 0">
+            </th>
+          </tr>
+        </thead>
+        <!-- 表本身 -->
+        <tbody>
+          <ng-container *ngFor="let data of viewData; let indexFromViewData = index; trackBy: trackByFn">
+            <!-- ngIf 控制列表顯示的資料數 -->
+            <tr *ngIf="indexFromViewData >= pageSize * pageIndex && indexFromViewData < pageSize * (pageIndex + 1)" [ngClass]="{'tr-dark': indexFromViewData % 2 === 0}">
+              <ng-container *ngFor="let columnDef of viewColumnDefs;let indexFromColumnDef = index">
+                <td>
+                  <div class="flex-row align-items-center justify-content-center" style="width: 100%">
+                    <!-- 從外面透過directive傳入的模板位置 -->
+                    <ng-container *ngIf="fieldDirective?.fieldTemplateRef">
+                      <ng-container
+                      *ngTemplateOutlet="columnDef.fieldDirective!.fieldTemplateRef;
+                      context: {
+                        $implicit: {
+                          data: data[columnDef.dataKey],
+                          index: indexFromViewData,
+                          rowData: data,
+                        },
+                        columnDef: columnDef,
+                      }"
+                      ></ng-container>
+                    </ng-container>
+                    <span *ngIf="columnDef.fieldName">
+                      {{columnDef.fieldName}}
+                    </span>
+                    <div class="td-content" [hidden]="columnDef.hiddenKey" [ngStyle]="{ minWidth: columnDef.widthOfTable, maxWidth: columnDef.widthOfTable}">
+                      {{data[columnDef.dataKey]}}
+                    </div>
+                  </div>
+                </td>
+              </ng-container>
+              <td *ngIf="operateItems.length > 0">
+                <ng-container *ngFor="let operateItem of operateItems; let i = index">
+                  <button class="flex-row font-color-white" [ngClass]="{'edit-btn': operateItem.name === 'Edit', 'delete-btn': operateItem.name === 'Delete'}"  [ngStyle]="{'margin-left': i === 1 ? '2em' : '0'}" mat-flat-button (click)="operateItem.handleOperate(data)">
+                    {{operateItem.name}}
+                  </button>
+                </ng-container>
+              </td>
+            </tr>
+          </ng-container>
+          <!-- Total -->
+          <tr *ngIf="showTotal" class="total-tr">
+            <td>Total</td>
+            <ng-container *ngFor="let columnDef of viewColumnDefs;let indexFromColumnDef = index">
+              <td *ngIf="indexFromColumnDef !== 1 && indexFromColumnDef !== totalFieldIndex"></td>
+              <td *ngIf="indexFromColumnDef === totalFieldIndex">{{total}}</td>
+            </ng-container>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <mat-paginator [length]="viewData.length" [pageSize]="pageSize" [pageIndex]="pageIndex" (page)="pageChangeEvent($event)" [pageSizeOptions]="tablePageOptions" showFirstLastButtons></mat-paginator>
+  </div>
+</div>
