@@ -1,0 +1,78 @@
+<div class="container">
+  <div class="home flex-column">
+    <div class="flex-row" style="height: 100%">
+      <section class="page-content">
+        <!-- 搜尋欄 -->
+        <div class="flex-row align-items-center" style="height: 48px; margin-bottom: 16px">
+          <button class="flex-row bg-green border-green2 font-color-white" style="margin-right: auto" mat-flat-button (click)="createUserForm()">
+            <mat-icon>add</mat-icon>Add more user
+          </button>
+
+          <form class="query-bar flex-row" action="update-team">
+            <div class="flex-row align-items-center" style="gap: 8px">
+              <label for="name">Serch by name : </label>
+              <div id="name">
+                <input name="name" matInput placeholder="Type name to search" [(ngModel)]="queryParamsForm.name" (ngModelChange)="advancedSearch()">
+              </div>
+            </div>
+          </form>
+        </div>
+        <!-- 列表 -->
+        <app-common-table
+          [tableData]="userList"
+          [tableColumnDefs]="tableColumnDefs"
+          [operateItems]="operateItems"
+          [showTotal]="true"
+          [totalField]="'salary'"
+          [dataPkKey]="'id'"
+        >
+        </app-common-table>
+        <!-- 新增Edit表單 -->
+        <ng-container *ngIf="visibleUserForm">
+          <h2 style="margin-bottom: 16px">{{formType}} user</h2>
+          <ng-container *ngTemplateOutlet="userForm"></ng-container>
+        </ng-container>
+      </section>
+    </div>
+  </div>
+
+  <ng-template #userForm>
+    <form class="flex-column" [formGroup]="formGroup">
+      <div class="form-item flex-column">
+        <label class="form-label">Name</label>
+        <input name="name"class="form-input" formControlName="name" placeholder="Edit name">
+        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="form-alert">Please input name</div>
+      </div>
+
+      <div class="form-item flex-column">
+        <label class="form-label">Country</label>
+        <input name="country"class="form-input" formControlName="country" placeholder="Edit country">
+        <div *ngIf="country.invalid && (country.dirty || country.touched)" class="form-alert">Please input user country</div>
+      </div>
+
+      <div class="form-item flex-column">
+        <label class="form-label">Salary</label>
+        <input name="salary" class="form-input" type="number" formControlName="salary" placeholder="Edit salary">
+        <div *ngIf="salary.invalid && (salary.dirty || salary.touched)" class="form-alert">Please input salary</div>
+      </div>
+
+      <div class="form-item flex-column">
+        <label class="form-label">Email</label>
+        <input name="email"class="form-input" formControlName="email" placeholder="Edit email">
+        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="form-alert">
+          <ng-container *ngIf="email.hasError('required')">Please input email</ng-container>
+          <ng-container *ngIf="!email.hasError('required') && email.hasError('email')">Please input valid email</ng-container>
+          <ng-container *ngIf="!email.hasError('required') && !email.hasError('email') && email.hasError('uniqueValue')">This email has been registerd by other user</ng-container>
+        </div>
+      </div>
+    </form>
+    <div class="flex-row">
+      <button mat-flat-button class="flex-row font-color-white form-btn" (click)="submitForm(formGroup.value, formType)" [disabled]="formGroup.invalid">
+        <mat-icon>mode_edit_outline</mat-icon> Save change
+      </button>
+      <button mat-flat-button class="flex-row font-color-white form-btn" style="margin-left: 2em" (click)="closeUserForm()">
+        Cancel
+      </button>
+    </div>
+  </ng-template>
+</div>
