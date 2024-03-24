@@ -19,22 +19,25 @@
     thead  {
       border-bottom: 2px solid #dddddd;
     }
-    tbody tr {
-      border-bottom: 1px solid #dddddd;
+    tbody {
+      tr {
+        border-bottom: 1px solid #dddddd;
+        &:nth-child(even){
+          background-color: #f9f9f9;
+          td {
+            background-color: #f9f9f9;
+          }
+        }
+      }
+      // 總數tr
+      .total-tr {
+        border-bottom: unset !important;
+        > td {
+          border: unset;
+        }  
     }
   }
-  .tr-dark {
-    background-color: #f9f9f9;
-    td {
-      background-color: #f9f9f9;
-    }
-  }
-  // 總數tr
-  .total-tr {
-    border-bottom: unset !important;
-    > td {
-      border: unset;
-    }
+  
   }
   td,th {
     text-align: center;
