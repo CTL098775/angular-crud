@@ -60,7 +60,7 @@
           <tr *ngIf="showTotal" class="total-tr">
             <td>Total</td>
             <ng-container *ngFor="let columnDef of viewColumnDefs;let indexFromColumnDef = index">
-              <td *ngIf="indexFromColumnDef !== 1 && indexFromColumnDef !== totalFieldIndex"></td>
+              <td *ngIf="indexFromColumnDef !== totalFieldIndex"></td>
               <td *ngIf="indexFromColumnDef === totalFieldIndex">{{total}}</td>
             </ng-container>
           </tr>
