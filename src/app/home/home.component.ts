@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { OperateItem, TableColumnDef } from 'src/app/common-table/common-table.model';
-import { EditUserParams, GetUserListParams, User } from 'src/app/models/user.model';
+import { CreateUserParams,EditUserParams, GetUserListParams, User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'lodash'
@@ -71,7 +71,13 @@ export class HomeComponent {
   }
   // Add user 
   createUser(user: User){
-    const subscripiton = this.userService.createUser(user).subscribe({
+    const params: CreateUserParams = {
+      name: user.name,
+      country: user.country,
+      salary: user.salary!,
+      email: user.email
+    }
+    const subscripiton = this.userService.createUser(params).subscribe({
       next:(success) =>{
         // 新增成功後關閉跟重新查詢
         if(success){
@@ -90,7 +96,7 @@ export class HomeComponent {
       id: user.id!,
       name: user.name,
       country: user.country,
-      salary: user.salary,
+      salary: user.salary!,
       email: user.email
     }
     const subscripiton = this.userService.editUser(params).subscribe({
@@ -197,7 +203,7 @@ export class HomeComponent {
     const user: User = {
       name: '',
       country: '',
-      salary: 0,
+      salary: null,
       email: ''
     };
     // 新增user時, 將已選擇Edit的資料設置為空
