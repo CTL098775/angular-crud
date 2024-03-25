@@ -15,7 +15,7 @@ export interface GetUserListParams {
   id?: string;
 }
 // 新增user 傳參 
-export interface CreateUserParams {
+export interface AddUserParams {
   name: string;
   country: string;
   salary: number;

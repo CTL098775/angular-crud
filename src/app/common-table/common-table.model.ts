@@ -3,7 +3,6 @@ import { CommonTableFieldTemplateDirective } from './common-table-field-template
 export type OrNull<Type> = Type | null;
 // 可用PickObj來取某物件中的某屬性的型別
 export type PickObj<T, U extends keyof T> = T[U];
-export type InputType = 'text' | 'number' | 'textarea';
 export interface ViewColumnDef<T> extends TableColumnDef<T> {
   fieldDirective: OrNull<CommonTableFieldTemplateDirective<T>>;
 }

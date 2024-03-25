@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { from, Observable, tap } from 'rxjs';
-import { CreateUserParams, EditUserParams, GetUserListParams, User } from '../models/user.model';
+import { AddUserParams, EditUserParams, GetUserListParams, User } from '../models/user.model';
 import * as _ from 'lodash';
 @Injectable({
   providedIn: 'root'
@@ -68,7 +68,7 @@ export class UserService {
     }));
   }
   // 新增user
-  createUser(params: CreateUserParams): Observable<boolean> {
+  addUser(params: AddUserParams): Observable<boolean> {
     let user: User = {
       id: '',
       name: params.name,

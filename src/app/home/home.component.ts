@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { OperateItem, TableColumnDef } from 'src/app/common-table/common-table.model';
-import { CreateUserParams,EditUserParams, GetUserListParams, User } from 'src/app/models/user.model';
+import { AddUserParams, EditUserParams, GetUserListParams, User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'lodash'
@@ -33,7 +33,7 @@ export class HomeComponent {
   // 選擇Edit的資料
   selectUser?: User;
   // 表單類型（Edit或Add user） 
-  formType!: 'Edit' | 'Create';
+  formType!: 'Edit' | 'Add';
   // 是否顯示表單 
   visibleUserForm = false;
 
@@ -70,14 +70,14 @@ export class HomeComponent {
     })
   }
   // Add user 
-  createUser(user: User){
-    const params: CreateUserParams = {
+  addUser(user: User){
+    const params: AddUserParams = {
       name: user.name,
       country: user.country,
       salary: user.salary!,
       email: user.email
     }
-    const subscripiton = this.userService.createUser(params).subscribe({
+    const subscripiton = this.userService.addUser(params).subscribe({
       next:(success) =>{
         // 新增成功後關閉跟重新查詢
         if(success){
@@ -189,17 +189,17 @@ export class HomeComponent {
     this.formGroup.reset();
   }
   // save跟upload
-  submitForm(user: User, type: 'Edit' | 'Create') {
+  submitForm(user: User, type: 'Edit' | 'Add') {
     console.log(type,user);
     if(type === 'Edit') {
       user.id = this.selectUser!.id;
       this.editUser(user);
-    } else if(type === 'Create'){
-      this.createUser(user);
+    } else if(type === 'Add'){
+      this.addUser(user);
     }
   }
   // 新增user表單 
-  createUserForm() {
+  addUserForm() {
     const user: User = {
       name: '',
       country: '',
@@ -208,7 +208,7 @@ export class HomeComponent {
     };
     // 新增user時, 將已選擇Edit的資料設置為空
     this.selectUser = undefined;
-    this.formType = 'Create';
+    this.formType = 'Add';
     this.setFormGroup(user)
     this.openUserForm();
   }

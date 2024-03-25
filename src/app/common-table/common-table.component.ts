@@ -58,6 +58,13 @@ export class CommonTableComponent<DataT> implements OnChanges {
     }
   }
 
+  ngAfterContentInit(): void {
+    this.fieldTemplateDirectives?.forEach((directive) => {
+      this.directiveFieldMap.set(directive.dataKey, directive);
+    });
+    this.viewColumnDefs = this._createViewTableCoumnDef();
+  }
+
   // 回傳一個view用的表單定義
   private _createViewTableCoumnDef(): ViewColumnDef<DataT>[] {
     return this.tableColumnDefs.map((columnDef: TableColumnDef<DataT>) => {
